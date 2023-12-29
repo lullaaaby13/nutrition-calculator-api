@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: 'jdbc:mariadb://localhost:3306/nutrition_calc?serverTimezone=UTC&characterEncoding=UTF-8'
+    username: 'nutrition-calc-dev'
+    password: 'nutrition-calc-dev!@#'
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect

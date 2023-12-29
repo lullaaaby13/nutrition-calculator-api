@@ -1,0 +1,62 @@
+name: CI/CD with Gradle
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "adopt"
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Test with Gradle
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean test --stacktrace --parallel
+      - name: Build with Gradle
+        run: |
+          ./gradlew bootJar --parallel
+      - name: Copy jar file to remote
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: 22
+          source: "./build/libs/nutrition-calculator-api.jar"
+          target: ${{ secrets.DEPLOY_PATH }}
+          strip_components: 1
+      - name: Run jar file
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: 22
+          script: |
+            cd ${{ secrets.DEPLOY_PATH }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} \
+            DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
+            nohup java -jar -Dspring.profiles.active=prod -Dserver.port=${{ secrets.SERVICE_PORT }} ./build/libs/nutrition-calculator-api.jar > ./logs/app.log 2> ./logs/error.log &
