@@ -23,7 +23,7 @@ public class SecretBase extends BaseEntity {
 
     private String memo;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "secretBase", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "secretBase", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SecretBaseComponent> components = new ArrayList<>();
 
     protected SecretBase() {}
@@ -45,12 +45,17 @@ public class SecretBase extends BaseEntity {
     }
 
     public void addComponent(Double amount, Ingredient ingredient) {
-        SecretBaseComponent secretBaseComponent = SecretBaseComponent.create(amount, ingredient);
+        SecretBaseComponent secretBaseComponent = SecretBaseComponent.create(amount, this, ingredient);
         this.components.add(secretBaseComponent);
     }
 
     public void removeComponent(Ingredient ingredient) {
         this.components.removeIf(component -> component.getIngredient().equals(ingredient));
     }
+
+    public void clearComponents() {
+        this.components.clear();
+    }
+
 
 }

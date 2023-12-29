@@ -25,9 +25,10 @@ public class SecretBaseComponent {
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 
-    static SecretBaseComponent create(Double amount, Ingredient ingredient) {
+    static SecretBaseComponent create(Double amount, SecretBase secretBase, Ingredient ingredient) {
         SecretBaseComponent component = new SecretBaseComponent();
         component.amount = amount;
+        component.secretBase = secretBase;
         component.ingredient = ingredient;
         return component;
     }
