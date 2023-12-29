@@ -9,9 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class NutritionCalculatorApiApplication {
 
     public static void main(String[] args) {
-
-        System.out.println(System.getProperty("DATABASE_URL"));
-        
         SpringApplication.run(NutritionCalculatorApiApplication.class, args);
     }
 

@@ -9,7 +9,6 @@ import com.lullaby.nutritioncalculatorapi.dto.UpdateIngredientRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -65,7 +64,7 @@ public class IngredientService {
         return ingredientRepository.findById(id);
     }
 
-    public void updateIngredient(Long id, UpdateIngredientRequest request) {
+    public IngredientResponse updateIngredient(Long id, UpdateIngredientRequest request) {
         Ingredient ingredient = findEntityById(id)
                 .orElseThrow(() -> new NotFoundException("재료를 찾을 수 없습니다."));
         ingredient.setName(request.name());
@@ -80,5 +79,6 @@ public class IngredientService {
         ingredient.setCaffeine(request.caffeine());
         ingredient.setSaturatedFat(request.saturatedFat());
         ingredient.setCategory(request.category());
+        return new IngredientResponse(ingredientRepository.save(ingredient));
     }
 }

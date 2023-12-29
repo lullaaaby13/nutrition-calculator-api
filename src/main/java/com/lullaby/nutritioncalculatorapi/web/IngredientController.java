@@ -23,8 +23,8 @@ public class IngredientController {
     }
 
     @PostMapping
-    public void createIngredient(@RequestBody CreateIngredientRequest request) {
-        ingredientService.createIngredient(request);
+    public IngredientResponse createIngredient(@RequestBody CreateIngredientRequest request) {
+        return ingredientService.createIngredient(request);
     }
 
     @DeleteMapping("{id}")
@@ -33,8 +33,8 @@ public class IngredientController {
     }
 
     @PutMapping("{id}")
-    public void updateIngredient(@PathVariable Long id, @RequestBody UpdateIngredientRequest request) {
-        ingredientService.updateIngredient(id, request);
+    public IngredientResponse updateIngredient(@PathVariable Long id, @RequestBody UpdateIngredientRequest request) {
+        return ingredientService.updateIngredient(id, request);
     }
 
 }
