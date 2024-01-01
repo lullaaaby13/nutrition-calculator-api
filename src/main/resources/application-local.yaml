@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: 'jdbc:mariadb://localhost:3306/nutrition_calc?serverTimezone=UTC&characterEncoding=UTF-8'
+    url: 'jdbc:mariadb://lullaby.sldb.iwinv.net:3306/nutrition_calc_dev?serverTimezone=UTC&characterEncoding=UTF-8'
     username: 'nutrition-calc-dev'
     password: 'nutrition-calc-dev!@#'
   jpa:
