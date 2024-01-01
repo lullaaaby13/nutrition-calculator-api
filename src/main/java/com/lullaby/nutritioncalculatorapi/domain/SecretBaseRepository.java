@@ -8,7 +8,8 @@ import java.util.List;
 public interface SecretBaseRepository extends JpaRepository<SecretBase, Long> {
 
     @Query("select distinct s from SecretBase s " +
-            "join fetch s.components c")
+            "join fetch s.components c " +
+            "join fetch c.ingredient i")
     List<SecretBase> findSecretBases();
 
     boolean existsByName(String name);
