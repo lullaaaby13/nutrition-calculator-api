@@ -1,14 +1,17 @@
 spring:
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: 'jdbc:mariadb://lullaby.sldb.iwinv.net:3306/nutrition_calc_dev?serverTimezone=UTC&characterEncoding=UTF-8'
-    username: 'nutrition-calc-dev'
-    password: 'nutrition-calc-dev!@#'
+    driver-class-name: org.h2.Driver
+    url: 'jdbc:h2:./data/nutrition-calc-dev;AUTO_SERVER=FALSE;DATABASE_TO_UPPER=FALSE'
+    username: 'sa'
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MariaDBDialect
 
+logging:
+  file:
+    path: ./logs
+  logback:
+    rollingpolicy:
+      max-file-size: 2MB
+      max-history: 100

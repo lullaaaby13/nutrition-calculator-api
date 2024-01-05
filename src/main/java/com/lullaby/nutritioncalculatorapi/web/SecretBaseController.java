@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin(originPatterns = "*")
-@RequestMapping("secret-bases")
+@RequestMapping("/api/secret-bases")
 @RequiredArgsConstructor
 @RestController
 public class SecretBaseController {
