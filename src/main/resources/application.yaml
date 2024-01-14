@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: 'jdbc:h2:./data/nutrition-calc-dev;AUTO_SERVER=FALSE;DATABASE_TO_UPPER=FALSE'
+    url: 'jdbc:h2:./data/nutrition-calc-dev;AUTO_SERVER=TRUE;DATABASE_TO_UPPER=FALSE'
     username: 'sa'
   jpa:
     show-sql: true
